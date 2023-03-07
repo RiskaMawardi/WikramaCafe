@@ -1,0 +1,92 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-padding-top: 2rem;
+    text-decoration: none;
+    list-style: none;
+    scroll-behavior: smooth;
+    font-family: 'Poppins', sans-serif;
+}
+
+.footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.social a{
+    font-size: 27px;
+    margin: 0.5rem;
+}
+.social a .bx{
+    padding: 5px;
+    color: #fff;
+    background:#000 ;
+    border-radius: 50%;
+}
+
+.social a .bx:hover{
+    background: var(--main-color);
+
+}
+section{
+    padding: 50px 10%;
+}
+.order{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background: linear-gradient(0deg, rgba(195,34,34,1) 0%, rgba(253,156,45,1) 100%);
+    gap: 1rem;
+}
+
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  
+  div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    width: auto;
+    box-sizing: border-box;
+  }
+
+  .btn{
+    padding: 7px 16px;
+    border: 2px solid var(--second-color);
+    border-radius: 40px;
+    color: var(--second-color);
+    font-weight: 500;
+
+}
+
+.btn:hover{
+color: #fff;
+background: var(--second-color);
+}
