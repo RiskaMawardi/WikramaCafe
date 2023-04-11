@@ -32,7 +32,7 @@
             <span>Welcome To</span>
             <h1>Cafe Wikrama</h1>
             <h2>Fresh and<br>delicious food every day!</h2>
-            <a href="{{route('orders')}}" class="btn">Order Now</a>
+            <a href="/orders" class="btn">Order Now</a>
         </div>
         <div class="home-img">
             <img src="assets/img/mie.png" alt="">

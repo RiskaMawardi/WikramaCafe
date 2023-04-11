@@ -1,52 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts')
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cafe Wikrama</title>
-    <link rel="icon" href="assets/img/wk.png" type="image/icon type">
-    <!-- Link Css -->
-    <link rel="stylesheet" href="assets/css/style1.css">
-    <!-- Box Icon -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-</head>
+@section('content')
+<table id="cart" class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th style="width:50%">Product</th>
+            <th style="width:10%">Price</th>
+            <th style="width:8%">Quantity</th>
+            <th style="width:22%" class="text-center">Subtotal</th>
+            <th style="width:10%"></th>
+        </tr>
+    </thead>
+    <form action="{{route('checkout')}}" method="post">
+        @csrf
+        <tbody>
+            @php $total = 0 @endphp
+            @if(session('cart'))
+            @foreach(session('cart') as $id_product => $details)
+            @php $total += $details['price'] * $details['quantity'] @endphp
+            <tr data-id="{{ $id_product }}">
+                <td data-th="Product">
+                    <div class="row">
+                        <div class="col-sm-3 hidden-xs"><img src="{{ $details['image'] }}" width="100" height="100"
+                                class="img-responsive" /></div>
+                        <div class="col-sm-9">
+                            <h4 class="nomargin">{{ $details['name'] }}</h4>
+                            <input type="hidden" name="id_product[]" value="{{$id_product}}">
+                        </div>
+                    </div>
+                </td>
+                <td data-th="Price">RP. {{ $details['price'] }}</td>
+               
+                <td data-th="Quantity">
+                    <input type="text" value="{{ $details['quantity'] }}" class="form-control"
+                        min="1" name="total_pesanan[]" readonly/>
+                </td>
+                <td data-th="Subtotal" class="text-center">
+                <input type="hidden" name="totalPrice[]" value="{{ $details['price'] * $details['quantity'] }}">
+                    ${{ $details['price'] * $details['quantity'] }}
+                </td>
+                <td class="actions" data-th="">
+                    <a href="" class="btn btn-danger btn-sm cart_remove"><i class="fa fa-trash-o"></i> Delete</a>
+                </td>
+            </tr>
+            @endforeach
+            @endif
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-right">
+                    <h3><strong>Total Rp. {{ $total }}</strong></h3>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" class="text-right">
+                    <a href="{{ url('/orders') }}" class="btn btn-danger"> <i class="fa fa-arrow-left"></i> Continue
+                        Shopping</a>
+                    <button class="btn btn-success mt-2"><i class="fa fa-money"></i>Checkout</button>
+                </td>
+            </tr>
+        </tfoot>
+    </form>
+</table>
+@endsection
 
-<body>
-    <section class="order" id="order">
-        <div>
-            <form action="/action_page.php">
-                <label for="fname">First Name</label>
-                <input type="text" id="fname" name="firstname" placeholder="Your name..">
+@section('scripts')
+<script type="text/javascript">
+   $(".cart_update").change(function (e) {
+        e.preventDefault();
+  
+        var ele = $(this);
+  
+        $.ajax({
+            url: '{{ route('update_cart') }}',
+            method: "patch",
+            data: {
+                _token: '{{ csrf_token() }}', 
+                id: ele.parents("tr").attr("data-id"), 
+                quantity: ele.parents("tr").find(".quantity").val()
+            },
+            success: function (response) {
+               window.location.reload();
+            }
+        });
+    });
+    $(".cart_remove").click(function (e) {
+        e.preventDefault();
+  
+        var ele = $(this);
+  
+        if(confirm("Do you really want to remove?")) {
+            $.ajax({
+                url: '{{ route('remove_from_cart') }}',
+                method: "DELETE",
+                data: {
+                    _token: '{{ csrf_token() }}', 
+                    id: ele.parents("tr").attr("data-id")
+                },
+                success: function (response) {
+                    window.location.reload();
+                }
+            });
+        }
+    });
 
-                <label for="lname">Last Name</label>
-                <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-
-                <label for="country">Country</label>
-                <select id="country" name="country">
-                    <option value="australia">Australia</option>
-                    <option value="canada">Canada</option>
-                    <option value="usa">USA</option>
-                </select>
-
-                <input type="submit" value="Submit" class="btn">
-            </form>
-        </div>
-    </section>
-    <section class="footer" id="footer">
-        <div class="social">
-            <a href=""><i class='bx bxl-instagram'></i></a>
-            <a href=""><i class='bx bxl-facebook-circle'></i></a>
-            <a href=""><i class='bx bxl-tiktok'></i></a>
-        </div>
-        <div class="links">
-            <a href="">Privacy Policy</a>
-            <a href=""> Terms Of Use</a>
-            <a href=""> Our Company</a>
-        </div>
-        <p>&#169; Cafe Wikrama All Right Reserved</p>
-    </section>
-</body>
-
-</html>
+</script>
+@endsection

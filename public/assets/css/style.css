@@ -89,7 +89,7 @@ header{
 } 
 @keyframes animate{
     0%{
-        transform: translate(-11, 0);
+        transform: translate(-11px, 0);
     }
     50%{
         transform: translate(-0px, -11px);
@@ -294,7 +294,7 @@ background: var(--second-color);
 }
 .social a .bx{
     padding: 5px;
-    color: #fff;
+    color: #fff; 
     background:#000 ;
     border-radius: 50%;
 }
